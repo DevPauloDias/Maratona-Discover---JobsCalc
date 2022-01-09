@@ -2,13 +2,17 @@ const express= require('express');
 const server= express();
 const routes=require("./routes")
 
+
+// Usando template engine
+
+server.set('view engine', 'ejs');
+
 // Habilitar arquivos static
 server.use(express.static("public"));
 
 
-server.get("/", function(req, res){
-    res.sendFile(__dirname +"/views/index.html");
-})
+//server.get("/", (req, res)=> res.render("index"));
+ 
 
 // routes
 server.use(routes);
