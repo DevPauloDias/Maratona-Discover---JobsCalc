@@ -1,9 +1,12 @@
 const express= require('express');
 const server= express();
 
+// Habilitar arquivos static
+server.use(express.static("public"));
+
 
 server.get("/", function(req, res){
-    res.send("index");
+    res.sendFile(__dirname +"/views/index.html");
 
 
 })
