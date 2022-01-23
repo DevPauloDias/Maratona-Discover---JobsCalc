@@ -10,6 +10,8 @@ server.set('view engine', 'ejs');
 // Habilitar arquivos static
 server.use(express.static("public"));
 
+server.use(express.urlencoded({ extended: true}))
+
 
 //server.get("/", (req, res)=> res.render("index"));
  
