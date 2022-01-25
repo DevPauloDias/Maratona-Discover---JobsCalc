@@ -2,9 +2,11 @@ const express= require('express');
 const routes= express.Router();
 const ProfileController= require('./controllers/ProfileController')
 const JobController= require('./controllers/JobController')
+const DashboardController= require('./controllers/DashboardController')
 
 
-routes.get("/", JobController.index)
+
+routes.get("/", DashboardController.index)
 routes.get("/job", JobController.create) // carrega a página para inserir outro job
 routes.post("/job", JobController.save) // salva o job inserido
 
