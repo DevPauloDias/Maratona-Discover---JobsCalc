@@ -1,5 +1,7 @@
 
 
+
+
  let data= [
     {
         id :  1,
@@ -23,7 +25,7 @@
 
 module.exports= {
 
-    get(){
+    get(){    
         return data;
     },
 
@@ -33,5 +35,10 @@ module.exports= {
 
     delete(jobId){
       data= data.filter(job =>Number(job.id) !== Number(jobId))
+    }, 
+
+    create(newJob){
+        data.push(newJob)
+
     }
 }

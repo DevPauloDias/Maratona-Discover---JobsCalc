@@ -11,13 +11,13 @@ const Profile= require('../model/Profile')
        return res.render("job")
     },
 
-    save(req, res){
+     save(req, res){
         // req.body  { name: 'teste', 'daily-hours': '5', 'total-hours': '20' }
-        const jobs= Job.get();
+        const jobs=  Job.get();
         const lastId= jobs[jobs.length -1]?.id || 0;
         
 
-       jobs.push({
+       Job.create({
          id : lastId + 1,
          name: req.body.name,
          "daily-hours": req.body["daily-hours"],
@@ -28,9 +28,9 @@ const Profile= require('../model/Profile')
       return  res.redirect('/'); 
     } ,
 
-    show(req, res)  {
-        const jobs = Job.get();
-        const profile= Profile.get();
+    async show(req, res)  {
+        const jobs =  Job.get();
+        const profile= await Profile.get();
 
         const jobId= req.params.id
 
@@ -40,7 +40,8 @@ const Profile= require('../model/Profile')
             return res.send('Job not found')
         }
 
-         job.budget= JobUtils.calculateBudget(job, profile["value-hour"])              
+         job.budget= JobUtils.calculateBudget(job, profile["value-hour"]); 
+                     
 
         return res.render("job-edit", { job })
 
@@ -49,7 +50,7 @@ const Profile= require('../model/Profile')
 
         update(req, res){
             const jobId= req.params.id;
-            const jobs= Job.get();
+            const jobs=  Job.get();
 
             const job= jobs.find( job => Number(job.id) === Number(jobId))
 

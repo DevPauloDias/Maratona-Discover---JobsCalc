@@ -22,5 +22,5 @@ module.exports= {
     
     },
 
-    calculateBudget: (job, valueHour) => (valueHour * job["total-hours"]).toFixed(2)      
+    calculateBudget: (job, valueHour) => ( valueHour * job["total-hours"]).toFixed(2)      
 }
