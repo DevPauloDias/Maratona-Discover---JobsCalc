@@ -2,6 +2,8 @@
 const Job = require('../model/job');
 const JobUtils= require('../utils/jobUtils')
 const Profile= require('../model/Profile')
+const DataBase= require('../db/config');
+const { Database } = require('sqlite');
 
   module.exports=  {
    
@@ -11,75 +13,62 @@ const Profile= require('../model/Profile')
        return res.render("job")
     },
 
-     save(req, res){
-        // req.body  { name: 'teste', 'daily-hours': '5', 'total-hours': '20' }
-        const jobs=  Job.get();
-        const lastId= jobs[jobs.length -1]?.id || 0;
-        
+    async save(req, res){
+       
+        const newJob= {
+          name: req.body.name,
+          "total-hours": req.body["total-hours"],
+          "daily-hours": req.body["daily-hours"],
+          created_at: Date.now()
+        };
 
-       Job.create({
-         id : lastId + 1,
-         name: req.body.name,
-         "daily-hours": req.body["daily-hours"],
-         "total-hours": req.body["total-hours"],
-          created_at: Date.now() // atribuindo a data de criação
-       });
+       await Job.create(newJob); 
 
       return  res.redirect('/'); 
     } ,
 
     async show(req, res)  {
-        const jobs =  Job.get();
-        const profile= await Profile.get();
 
-        const jobId= req.params.id
+      const jobs = await Job.get();
+      const profile= await Profile.get();
 
-        const job= jobs.find( job => Number(job.id) === Number(jobId))
+      const jobId= req.params.id
 
-        if(!job){
-            return res.send('Job not found')
-        }
+      const job = jobs.find( job => Number(job.id) === Number(jobId))
 
-         job.budget= JobUtils.calculateBudget(job, profile["value-hour"]); 
-                     
+      if(!job){
+          return res.send('Job not found')
+      }
 
-        return res.render("job-edit", { job })
+      
+        job.budget = JobUtils.calculateBudget(job, profile["value-hour"])
+      
 
+      return res.render("job-edit", { job })
 
-        },
+    },
 
-        update(req, res){
+   update(req, res){
+
             const jobId= req.params.id;
-            const jobs=  Job.get();
-
-            const job= jobs.find( job => Number(job.id) === Number(jobId))
-
-            if(!job){
-                return res.send('Job not found')
+            const upJob= {
+              name: req.body.name,
+              "total-hours": req.body["total-hours"],
+              "daily-hours": req.body["daily-hours"]
             }
-
-            const updatedJob={
-                ...job,
-                name:req.body.name,
-                "total-hours": req.body["total-hours"],
-                "daily-hours": req.body["daily-hours"],
-
-            }
-
-            const newJobs = jobs.map(job => {
-                if(Number(job.id) === Number(jobId)){
-                    job= updatedJob
-                }
-                return job
-            })
-            Job.update(newJobs);
+          
+            Job.update(upJob,jobId);
             res.redirect("/job/"+ jobId)
 
-        },
+        
+    },
 
-        delete(req,res){
+
+
+    delete(req,res){
            
             const jobId= req.params.id
+
            Job.delete(jobId)
 
             return res.redirect("/")
