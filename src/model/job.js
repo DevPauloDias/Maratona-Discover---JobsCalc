@@ -45,18 +45,30 @@ module.exports= {
     },
 
     
-
+    
     async create (newJob){
 
-       const db = await Database();
-       db.run(`INSERT INTO jobs (name, daily_hours, total_hours, created_at) VALUES ("${newJob.name}", 
-       ${newJob["daily-hours"]},
-       ${newJob["total-hours"]}, 
-       ${newJob.created_at})`)
+     
+        const db = await Database();
 
+        try{
+       await db.run(`INSERT INTO jobs (name, daily_hours, total_hours, created_at) VALUES ("${newJob.name}", 
+        ${newJob["daily-hours"]},
+        ${newJob["total-hours"]}, 
+        ${newJob.created_at})`)
 
-      db.close();
-    }
+        await db.close();    
 
-   
+      }catch(ex){
+
+        
+        console.log("Não foi possível inserir o Job!!")     
+
+       
+        
+      } 
+ 
+       
+      
+    }   
 }

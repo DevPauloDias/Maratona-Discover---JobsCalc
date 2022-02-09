@@ -16,11 +16,11 @@ module.exports= {
             const timeDiffInms = dueDateInMs - Date.now();
             //tranformar mili em dias
             const dayInMs = 1000 * 60 *60 *24
-            const dayDiff = Math.floor(timeDiffInms / dayInMs)
+            const dayDiff = Math.ceil(timeDiffInms / dayInMs)
     
             return dayDiff; // retorna os dias restantes, para acabar o prazo do job
     
     },
 
-    calculateBudget: (job, valueHour) => ( valueHour * job["total-hours"]).toFixed(2)   
+    calculateBudget: (job, valueHour) => ( valueHour * job["total-hours"]).toFixed(2)
 }
