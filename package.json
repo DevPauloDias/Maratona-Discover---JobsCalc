@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon .",
-    "init-db": "src/db/init.js"
+    "init-db": "src/db/init.js",
+    "start": "src/views/index.js"
   },
   "repository": {
     "type": "git",

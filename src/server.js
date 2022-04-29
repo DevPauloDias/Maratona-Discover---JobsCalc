@@ -1,7 +1,9 @@
 const express= require('express');
 const server= express();
 const routes=require("./routes");
-const path= require('path')
+const path= require('path');
+
+const port= process.env.PORT || 3333;
 
 
 // Usando template engine
@@ -24,4 +26,4 @@ server.use(routes);
 
 
 
-server.listen(3333, () => { console.log("Servidor ativo!")});
+server.listen(port, () => { console.log("Servidor ativo!")});
